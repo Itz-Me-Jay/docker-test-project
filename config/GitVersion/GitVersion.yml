@@ -1,0 +1,13 @@
+mode: ContinuousDeployment
+continuous-delivery-fallback-tag: ''
+merge-message-formats:
+  ghe-pull: '^Merge pull request #(?<PullRequestNumber>\d+) (from|in) (ITVD\/)?(?:(?<SourceBranch>[^\s]))(?: into (ITVD\/)?(?<TargetBranch>[^\s]))*'
+  azure-release-format: '^merge (ITVD\/)?(?:(?<SourceBranch>[^\s]))(?: into (ITVD\/)?(?<TargetBranch>[^\s]))'
+branches:
+  release:
+    tag: rc
+  hotfix:
+    tag: hf
+    increment: None
+  feature:
+    tag: useBranchName
