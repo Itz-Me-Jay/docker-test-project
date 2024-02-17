@@ -12,5 +12,5 @@ pool:
   name: project-pool
 
 steps:
-- script: echo hello-surya
+- script: docker run hello-world
   
