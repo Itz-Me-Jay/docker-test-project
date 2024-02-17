@@ -8,27 +8,8 @@ trigger:
     include:
       - main # Indentation is important here
 
-variables:
-  - name: tag
-    value: '$(GitVersion.SemVer)'
-  - name: release_tag
-    value: '$(Gitversion.MajorMinorPatch)'
-
 pool:
   vmImage: ubuntu-latest
-
-# Setup GitVersion
-- task: gitversion/setup@0
-  displayName: Setup GitVersion
-  inputs:
-    versionSpec: '1.x'
-
-# Execute Gitversion
-- task: gitversion/execute@0
-  displayName: Execute GitVersion
-  inputs:
-    useConfigFile: true
-    configFilePath: 'config/GitVersion/GitVersion.yml'
 
 steps:
 - script: echo hello-surya
