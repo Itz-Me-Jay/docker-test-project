@@ -31,11 +31,5 @@ pool:
     configFilePath: 'config/GitVersion/GitVersion.yml'
 
 steps:
-- script: npm install # Example: Install dependencies
-  displayName: 'Install dependencies'
-
-- script: npm test # Example: Run tests
-  displayName: 'Run tests' 
-
-- script: npm run build # Example: Build your project
-  displayName: 'Build the project'
+- script: echo hello-surya
+  
