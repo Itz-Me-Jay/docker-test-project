@@ -1,0 +1,43 @@
+# Node.js , Nginx, react application
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  branches:
+    include:
+    - '*'
+
+variables:
+- name: tag
+  value: '$(GitVersion.SemVer)'
+- name: release_tag
+  value: '$(Gitversion.MajorMinorPatch)'
+
+
+pool:
+  vmImage: ubuntu-latest
+
+# Setup GitVersion
+
+  - task: gitversion/setup@0
+    displayName: Setup GitVersion
+    inputs:
+      versionSpec: '1.x'
+
+# Execute Gitversion
+
+  - task: gitversion/execute@0
+    displayName: Execute GitVersion
+    inputs:
+      useConfigFile: true
+      configFilePath: 'config/GitVersion/GitVersion.yml'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
