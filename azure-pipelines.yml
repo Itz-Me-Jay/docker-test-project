@@ -9,7 +9,7 @@ trigger:
       - main # Indentation is important here
 
 pool:
-  vmImage: ubuntu-latest
+  name: Azure Pipelines
 
 steps:
 - script: echo hello-surya
