@@ -9,7 +9,7 @@ trigger:
       - main # Indentation is important here
 
 pool:
-  name: Azure Pipelines
+  name: project-pool
 
 steps:
 - script: echo hello-surya
