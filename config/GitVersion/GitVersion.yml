@@ -1,7 +1,0 @@
-mode: ContinuousBuild # Best for 'main'-only development scenarios
-branches:
-  main: 
-    increment: Minor  # Auto-increment the minor version with each commit
-    prevent-increment-of-merged-branch-version: true  # Ensures clean version history
-    tag: alpha  # Pre-release tag for 'main' commits
-    source-branches: [] #  We don't track merges from other branches 
