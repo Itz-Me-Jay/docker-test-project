@@ -15,29 +15,19 @@ stages:
 - stage: Build
   jobs:
   - job: BuildImage
-    displayName: Build image
+    displayName: "Build docker image"
     steps:
-    - task: Docker@2
-      displayName: Build an image
+    - task: Docker@0
+      displayName: "Build an docker image"
       inputs:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile' 
         tags: 'my-nginx:latest'
-
-- stage: Deploy
-  jobs:
-  - job: TriggerDeployment  # New job to ensure the stage can run 
-    displayName: Trigger Deployment 
-    steps: 
-    - script: echo "Deployment Triggered" # Placeholder action
-
-  - job: DeployWithCompose 
-    dependsOn: TriggerDeployment  # Dependent on the independent trigger
-    displayName: Deploy using Docker Compose
-    steps:
-    - task: DockerCompose@0
-      displayName: Deploy with Docker Compose
+    - task: Docker@0
+      displayName: "Push a Docker image to container registry"
       inputs:
-        action: 'Run a Docker Compose command'
-        dockerComposePath: '/home/azureuser_surya/docker-test-project'  # Adjust this path as needed
-        dockerComposeCommand: 'up -d'
+        azureSubscription:
+        azureContainerRegistry:
+        action: "push an image"
+        imageName: "nginx:$(tag)"
+
