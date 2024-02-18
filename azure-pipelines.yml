@@ -31,3 +31,20 @@ stages:
         action: "push an image"
         imageName: "nginx:$(tag)"
 
+- stage: Deploy
+  jobs:
+  - job: TriggerDeployment  # New job to ensure the stage can run 
+    displayName: Trigger Deployment 
+    steps: 
+    - script: echo "Deployment Triggered" # Placeholder action
+
+  - job: DeployWithCompose 
+    dependsOn: TriggerDeployment  # Dependent on the independent trigger
+    displayName: Deploy using Docker Compose
+    steps:
+    - task: DockerCompose@0
+      displayName: Deploy with Docker Compose
+      inputs:
+        action: 'Run a Docker Compose command'
+        dockerComposePath: '/home/azureuser_surya/docker-test-project'  # Adjust this path as needed
+        dockerComposeCommand: 'up -d'
