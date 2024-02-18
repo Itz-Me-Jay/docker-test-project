@@ -4,12 +4,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-  branches:
-    include:
-      - main # Indentation is important here
+ branches:
+   include:
+     - main # Indentation is important here
 
 pool:
-  name: 'project-pool'  # Adjust as needed for your Azure Pipelines agent
+ name: 'project-pool' # Adjust as needed for your Azure Pipelines agent
 
 stages:
 - stage: Build
@@ -26,9 +26,14 @@ stages:
 
 - stage: Deploy
   jobs:
-  - job: DeployWithCompose
+  - job: TriggerDeployment  # New job to ensure the stage can run 
+    displayName: Trigger Deployment 
+    steps: 
+    - script: echo "Deployment Triggered" # Placeholder action
+
+  - job: DeployWithCompose 
+    dependsOn: TriggerDeployment  # Dependent on the independent trigger
     displayName: Deploy using Docker Compose
-    dependsOn: BuildImage
     steps:
     - task: DockerCompose@0
       displayName: Deploy with Docker Compose
