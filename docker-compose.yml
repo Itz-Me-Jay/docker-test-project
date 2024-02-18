@@ -1,7 +1,15 @@
-version: '3.3' 
+version: "3.9"
 services:
-  nginx:
-    build: .  # Path to your Dockerfile
-    ports:
-      - '80:80'
-
+  nginxservice:
+    image:
+    container_name:
+  deploy:
+    replicas: 1
+    restart_policy:
+      condition: any
+  environment:
+    - NGINX_ENV=${PROFILE_ENV}
+    - SERVER_IP=${SERVER_IP}
+  ports:
+    - "80:80"
+    
