@@ -11,15 +11,6 @@ resources:
 pool:
  name: project-pool # Adjust as needed for your Azure Pipelines agent
 
-variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'aaa1367f-992d-4b60-a3c0-5141adf62937'
-  imageRepository: 'dockertestimagenginx'
-  containerRegistry: 'dockertestcontainer1.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: '$(Build.BuildId)'
-
-
 stages:
 - stage: Build
   displayName: Build and push stage
