@@ -8,34 +8,31 @@ trigger:
     include:
       - main # Indentation is important here
 
-variables:
-  - name: tag
-    value: '$(GitVersion.SemVer)'
-  - name: release_tag
-    value: '$(Gitversion.MajorMinorPatch)'
-
 pool:
-  vmImage: ubuntu-latest
+  name: 'project-pool'  # Adjust as needed for your Azure Pipelines agent
 
-# Setup GitVersion
-- task: gitversion/setup@0
-  displayName: Setup GitVersion
-  inputs:
-    versionSpec: '1.x'
+stages:
+- stage: Build
+  jobs:
+  - job: BuildImage
+    displayName: Build image
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile' 
+        tags: 'my-nginx:latest'
 
-# Execute Gitversion
-- task: gitversion/execute@0
-  displayName: Execute GitVersion
-  inputs:
-    useConfigFile: true
-    configFilePath: 'config/GitVersion/GitVersion.yml'
-
-steps:
-- script: npm install # Example: Install dependencies
-  displayName: 'Install dependencies'
-
-- script: npm test # Example: Run tests
-  displayName: 'Run tests' 
-
-- script: npm run build # Example: Build your project
-  displayName: 'Build the project'
+- stage: Deploy
+  jobs:
+  - job: DeployWithCompose
+    displayName: Deploy using Docker Compose
+    dependsOn: BuildImage
+    steps:
+    - task: DockerCompose@0
+      displayName: Deploy with Docker Compose
+      inputs:
+        dockerComposeFile: '$(Build.SourcesDirectory)/docker-compose.yml' 
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'up -d'
