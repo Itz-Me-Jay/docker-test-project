@@ -31,7 +31,7 @@ stages:
         azureSubscription: "docker-test-lab "
         azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
         action: "push an image"
-        imageName: 'my-nginx:$(tag)'
+        imageName: 'my-nginx'
 
 - stage: Deploy
   jobs:
