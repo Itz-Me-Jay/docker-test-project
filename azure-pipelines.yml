@@ -33,6 +33,7 @@ stages:
         action: "push an image"
         imageName: 'my-nginx'
 
+/*
 - stage: Deploy
   jobs:
   - job: TriggerDeployment  # New job to ensure the stage can run 
@@ -52,3 +53,5 @@ stages:
         action: 'Run a Docker Compose command'
         dockerComposePath: 'docker-compose.yml' 
         dockerComposeCommand: 'up -d' 
+
+*/
