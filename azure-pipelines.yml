@@ -1,7 +1,4 @@
-# Node.js, Nginx, react application
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+Nginx, react application
 
 trigger:
  branches:
@@ -10,6 +7,10 @@ trigger:
 
 pool:
  name: 'project-pool' # Adjust as needed for your Azure Pipelines agent
+
+variables:
+  containerRegistryName: 'your-container-registry-name' 
+  imageTag: '$(containerRegistryName).my-nginx:latest' 
 
 stages:
 - stage: Build
@@ -23,11 +24,11 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile' 
         tags: 'my-nginx:latest'
-    - task: Docker@0
+    - task: Docker@1
       displayName: "Push a Docker image to container registry"
       inputs:
         azureSubscription:
-        azureContainerRegistry:
+        azureContainerRegistry: '$(containerRegistryName)'
         action: "push an image"
         imageName: "nginx:$(tag)"
 
@@ -45,6 +46,8 @@ stages:
     - task: DockerCompose@0
       displayName: Deploy with Docker Compose
       inputs:
+        azureSubscription: '$(System.DefaultWorkingDirectory)/azure-pipelines.json' # Adjust as needed
+        azureContainerRegistry: '$(containerRegistryName)'
         action: 'Run a Docker Compose command'
-        dockerComposePath: '/home/azureuser_surya/docker-test-project'  # Adjust this path as needed
-        dockerComposeCommand: 'up -d'
+        dockerComposePath: 'docker-compose.yml' 
+        dockerComposeCommand: 'up -d' 
