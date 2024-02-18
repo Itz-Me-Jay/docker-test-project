@@ -10,7 +10,7 @@ pool:
 
 variables:
   containerRegistryName: 'your-container-registry-name' 
-  imageTag: '$(containerRegistryName).my-nginx:latest' 
+  imageTag: 'my-nginx:latest' 
 
 stages:
 - stage: Build
@@ -21,16 +21,19 @@ stages:
     - task: Docker@0
       displayName: "Build an docker image"
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile' 
-        tags: 'my-nginx:latest'
+        azureSubscription: "Free Trial"
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
+        imageName: "my-nginx:latest"
     - task: Docker@1
       displayName: "Push a Docker image to container registry"
       inputs:
-        azureSubscription:
-        azureContainerRegistry: '$(containerRegistryName)'
-        action: "push an image"
-        imageName: "nginx:$(tag)"
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscriptionEndpoint: 'Free Trial(f9975a12-2adb-465a-a9c1-83e85eabbfc5)'
+        azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
+        command: 'Build an image'
+        dockerFile: '**/Dockerfile'
+        imageName: 'my-nginx:$(tag)'
 
 - stage: Deploy
   jobs:
@@ -47,7 +50,7 @@ stages:
       displayName: Deploy with Docker Compose
       inputs:
         azureSubscription: 'Free Trial' # Adjust as needed
-        azureContainerRegistry: '$(containerRegistryName)'
+        azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
         action: 'Run a Docker Compose command'
         dockerComposePath: 'docker-compose.yml' 
         dockerComposeCommand: 'up -d' 
