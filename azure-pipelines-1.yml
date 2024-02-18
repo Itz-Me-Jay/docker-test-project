@@ -16,8 +16,8 @@ variables:
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+pool:
+ name: 'project-pool' # Adjust as needed for your Azure Pipelines agent
 
 stages:
 - stage: Build
