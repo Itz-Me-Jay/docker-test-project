@@ -33,25 +33,3 @@ stages:
         action: "push an image"
         imageName: 'my-nginx'
 
-/*
-- stage: Deploy
-  jobs:
-  - job: TriggerDeployment  # New job to ensure the stage can run 
-    displayName: Trigger Deployment 
-    steps: 
-    - script: echo "Deployment Triggered" # Placeholder action
-
-  - job: DeployWithCompose 
-    dependsOn: TriggerDeployment  # Dependent on the independent trigger
-    displayName: Deploy using Docker Compose
-    steps:
-    - task: DockerCompose@0
-      displayName: Deploy with Docker Compose
-      inputs:
-        azureSubscription: "docker-test-lab" # Adjust as needed
-        azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
-        action: 'Run a Docker Compose command'
-        dockerComposePath: 'docker-compose.yml' 
-        dockerComposeCommand: 'up -d' 
-
-*/
