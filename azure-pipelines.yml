@@ -9,7 +9,7 @@ resources:
 - repo: self
 
 pool:
- name: 'project-pool' # Adjust as needed for your Azure Pipelines agent
+ name: project-pool # Adjust as needed for your Azure Pipelines agent
 
 variables:
   # Container registry service connection established during pipeline creation
