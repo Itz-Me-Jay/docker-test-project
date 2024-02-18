@@ -46,7 +46,7 @@ stages:
     - task: DockerCompose@0
       displayName: Deploy with Docker Compose
       inputs:
-        azureSubscription: '$(System.DefaultWorkingDirectory)/azure-pipelines.json' # Adjust as needed
+        azureSubscription: 'Free Trial' # Adjust as needed
         azureContainerRegistry: '$(containerRegistryName)'
         action: 'Run a Docker Compose command'
         dockerComposePath: 'docker-compose.yml' 
