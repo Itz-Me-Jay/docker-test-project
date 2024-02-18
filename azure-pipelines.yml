@@ -39,6 +39,6 @@ stages:
       displayName: Deploy with Docker Compose
       inputs:
         action: Build services
-        dockerComposePath: .
+        dockerComposePath: '/home/azureuser_surya/docker-test-project'  # Adjust this path as needed
         action: 'Run a Docker Compose command'
         dockerComposeCommand: 'up -d'
