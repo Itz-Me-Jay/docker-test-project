@@ -38,6 +38,7 @@ stages:
     - task: DockerCompose@0
       displayName: Deploy with Docker Compose
       inputs:
-        dockerComposeFile: '$(Build.SourcesDirectory)/docker-compose.yml' 
+        workingDirectory: '$(Build.SourcesDirectory)'
+        dockerComposeFile: 'docker-compose.yml'
         action: 'Run a Docker Compose command'
         dockerComposeCommand: 'up -d'
