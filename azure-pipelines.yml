@@ -21,18 +21,16 @@ stages:
     - task: Docker@0
       displayName: "Build an docker image"
       inputs:
-        azureSubscription: "Free Trial"
+        azureSubscription: "docker-test-lab "
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
         imageName: "my-nginx:latest"
     - task: Docker@1
       displayName: "Push a Docker image to container registry"
       inputs:
-        containerregistrytype: 'Azure Container Registry'
-        azureSubscriptionEndpoint: 'Free Trial(f9975a12-2adb-465a-a9c1-83e85eabbfc5)'
+        azureSubscription: "docker-test-lab "
         azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
-        command: 'Build an image'
-        dockerFile: '**/Dockerfile'
+        action: "push an image"
         imageName: 'my-nginx:$(tag)'
 
 - stage: Deploy
@@ -49,7 +47,7 @@ stages:
     - task: DockerCompose@0
       displayName: Deploy with Docker Compose
       inputs:
-        azureSubscription: 'Free Trial' # Adjust as needed
+        azureSubscription: "docker-test-lab" # Adjust as needed
         azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
         action: 'Run a Docker Compose command'
         dockerComposePath: 'docker-compose.yml' 
