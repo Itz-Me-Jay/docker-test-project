@@ -1,15 +1,11 @@
 version: "3.9"
 services:
   nginxservice:
-    image:
-    container_name:
+    image: 'dockertestcontainer1.azurecr.io/dockertestimagenginx' 
+    container_name: nginx
   deploy:
     replicas: 1
     restart_policy:
       condition: any
-  environment:
-    - NGINX_ENV=${PROFILE_ENV}
-    - SERVER_IP=${SERVER_IP}
   ports:
     - "80:80"
-    
