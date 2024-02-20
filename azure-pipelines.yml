@@ -1,7 +1,3 @@
-# Docker
-# Build and push an image to Azure Container Registry
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - main
 
@@ -9,30 +5,53 @@ resources:
 - repo: self
 
 pool:
- name: 'project-pool' # Adjust as needed for your Azure Pipelines agent
+  name: project-pool 
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'aaa1367f-992d-4b60-a3c0-5141adf62937'
-  imageRepository: 'dockertestimagenginx'
-  containerRegistry: 'dockertestcontainer1.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  containerregistrytype: 'Azure Container Registry'
+  azureContainerRegistry: '{"loginServer":"registrytestt.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/React/providers/Microsoft.ContainerRegistry/registries/registrytestt"}'
+  imageRepository: 'project1React'
+  containerRegistry: 'reactacr1.azurecr.io'
+  dockerfile: '$(Build.SourcesDirectory)/Dockerfile' 
   tag: '$(Build.BuildId)'
-
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build and Push Image  
   jobs:
-  - job: Build
-    displayName: Build
+  - job: BuildAndPush
     steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
+    - task: Docker@2 
+      displayName: Build an image
       inputs:
-        command: buildAndPush
+        containerregistrytype: 'Azure Container Registry'
         repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
+        command: 'build'
+        Dockerfile: '$(Build.SourcesDirectory)/Dockerfile' 
         tags: |
           $(tag)
+
+#     - task: Docker@2
+#       displayName: Push to ACR
+#       inputs:
+#         containerregistrytype: 'Azure Container Registry'
+#         repository: $(imageRepository)
+#         command: 'push'
+#         tags: |
+#           $(tag)
+
+# - stage: Deploy 
+#   displayName: Deploy Stack
+#   jobs:
+#   - job: DeployStack
+#     steps:
+#     - checkout: self 
+#       persistCredentials: true 
+
+#     - task: Bash@3 # Assuming Linux agent
+#       displayName: 'Deploy Docker Stack'
+#       inputs:
+#         targetType: inline 
+#         script: |
+#           docker stack deploy -c docker-compose.yml nginx-react 
